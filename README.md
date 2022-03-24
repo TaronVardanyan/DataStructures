@@ -1,2 +1,2 @@
 # quarantine
-Node.js project
+Data Structures in JS
