@@ -2,128 +2,122 @@ function Node(data){
     this.data = data;
     this.next = null;
 }
-function LinkedList () {
-    let head = null;
-    let length = 0;
-    //add a new Item from the tail
-    this.append = function (data) {
-        let node = new Node(data);
-        if(head === null){
-            head = node;
-        } else {
-            let currentNode = head;
-            while(currentNode.next){
-                currentNode = currentNode.next;
-            }
-            currentNode.next = node;
-        }
-        length++;
-    };
-    //add a new item from head
-    this.prepend = function (data) {
-        let node = new Node(data);
-        if(head === null) {
-            head = node;
-        } else {
-            node.next = head;
-            head = node;
-        }
-        length++;
-    };
-    //remove certain node with particular data
-    this.remove = function (data) {
-        let currentNode = head;
-        let previusNode;
-        if(head.data === data) {
-            head = currentNode.next
-        } else {
-            while(currentNode.data != data) {
-                previusNode = currentNode;
-                currentNode = currentNode.next;
-            }
-            previusNode.next = currentNode.next;
-        }
-        length--;
-        return currentNode;
-    };
-    //add a new item on specific index
-    this.addAt = function (data, index) {
-        let node = new Node(data);
-        let currentNode = head;
-        let previusNode;
-        let currentIndex = 0;
-        if(index > length){
-            return null;
-        }
-        if(index === 0){
-            node.next = currentNode;
-            head = node;
-        } else {
-            while(currentIndex < index){
-                previusNode = currentNode;
-                currentNode = currentNode.next;
-                currentIndex++;
-            }
+
+function LinkedList() {
+   this.head = null;
+   this.length = 0;
+
+   //add a new item from the nested tail
+   this.append = function(newNodeData) {
+      const node = new Node(newNodeData);
+
+      if(!this.head) {
+         //if linked list is empty
+         this.head = node;
+      } else {
+         //if linked list containes other nodes
+         let currentNode = this.head;
+
+         while(currentNode?.next) {
+            //looping until get the reference of the tail node
+            currentNode = currentNode.next;
+         }
+         currentNode.next = node;
+      }
+      this.length++;
+   };
+
+   //add a new item from the head node
+   this.prepend = function (newNodeData) {
+      const node = new Node(newNodeData);
+
+      if(!this.head) {
+         //if linked list is empty
+         this.head = node;
+      } else {
+         node.next = this.head;
+         this.head = node;
+      }
+
+      this.length++
+   }
+
+   //add a new Node on specific index
+   this.addAtSpecificIndex = function (index, newNodeData) {
+      const node = new Node(newNodeData);
+      let currentNode = this.head;
+      let previusNode = null;
+      let currentIndex = 0;
+
+      if(index >= this.length) {
+         return undefined;
+      } else {
+         while(currentIndex != index){
+            previusNode = currentNode;
+            currentNode = currentNode.next;
+            currentIndex++;
+         }
+
+         if(!previusNode) {
+            this.head = node;
+         } else {
             node.next = currentNode;
             previusNode.next = node;
-        }
-        length++;
-    };
+         }
 
-    //remove a item on specific index
-    this.removeAt = function (index) {
-        let currentNode = head;
-        let previusNode;
-        let currentIndex = 0;
-        if(index < 0 || index >= length) {
-            return null;
-        }
-        if(index === 0){
-            head = currentNode.next;
-        } else {
-            while(currentIndex < index){
-                previusNode = currentNode;
-                currentNode = currentNode.next;
-                currentIndex++;
-            }
+      }
+      this.length++;
+   };
+
+   //find and remove a node with specific data
+   this.removeByData = function (removableData) {
+      if(!this.head) {
+         //if linked list is empty
+         return undefined
+      } else {
+         let currentNode = this.head;
+         let previusNode = null;
+
+         while(currentNode.data !== data) {
+            previusNode = currentNode;
+            currentNode = currentNode.next;
+         }
+
+         //if data was in head node and loop isn't started
+         if(!previusNode) {
+            this.head = currentNode.next;
+         } else {
             previusNode.next = currentNode.next;
-        }
-        length--;
-        return currentNode;
-    };
+         }
+         this.length--;
 
-    //get specific node by index
-    this.elementAt = function (index) {
-        let currentNode = head;
-        let currentIndex = 0;
-        if(index >= length){
-            return null;
-        }
-        if(index === 0) {
-            return head;
-        } else {
-            while(currentIndex < index){
-                currentNode = currentNode.next;
-                currentIndex++;
-            }
-            return currentNode;
-        }
-    }
-    this.indexOf = function (data) {
-        let currentNode = head;
-        let index = 0;
-        if(head.data === data){
-            return 0;
-        } else {
-            while(currentNode.data != data){
-                currentNode = currentNode.next;
-                index++;
-            }
-            return index;
-        }
-        return -1;
-    };
-    this.size = function () {
-        return length;
-    };
+         return currentNode;
+      }
+   }
+
+   //find node by index and remove it
+   this.removeByIndex = function (index) {
+      let currentIndex = 0;
+      let currentNode = this.head;
+      let previusNode = null;
+
+      if(index < 0 || index >= this.length) {
+         return undefined;
+      } else {
+         while(currentIndex !== index) {
+            previusNode = currentNode;
+            currentNode = currentNode.next;
+            currentIndex++;
+         }
+
+         if(!previusNode) {
+            this.head = currentNode.next;
+         } else {
+            previusNode.next = currentNode.next;
+         }
+
+      }
+      this.length--;
+      return currentNode;
+   };
 }
